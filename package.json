@@ -36,5 +36,11 @@
     "undici": "*",
     "vite": "5.3.5",
     "vite-tsconfig-paths": "^4.2.1"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.9",
+    "core-js": "^3.41.0",
+    "graphql": "^16.10.0",
+    "tailwindcss": "^4.0.9"
   }
 }
