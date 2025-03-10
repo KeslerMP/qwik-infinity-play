@@ -1,5 +1,6 @@
-import { component$, useSignal, $, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-import { useAuth } from "~/lib/auth";
+import { component$, useSignal, $ } from "@builder.io/qwik";
+import { routeLoader$ } from '@builder.io/qwik-city';
+import { CREATE_USER, LOGIN_USER } from "~/graphql/queries";
 
 export default component$(() => {
   const isLogin = useSignal(true);
@@ -32,20 +33,8 @@ export default component$(() => {
     }
 
     const mutation = isLogin.value
-      ? `mutation Login($email: String!, $password: String!) {
-          login(email: $email, password: $password) {
-            id
-            email
-            token
-          }
-        }`
-      : `mutation Register($email: String!, $password: String!) {
-          register(email: $email, password: $password) {
-            id
-            email
-            token
-          }
-        }`;
+      ? LOGIN_USER
+      : CREATE_USER;
 
     try {
       const response = await fetch("https://backend-inf-production.up.railway.app/", {
@@ -69,6 +58,8 @@ export default component$(() => {
         const result = isLogin.value ? data.login : data.register;
         message.value = `Sucesso: ${result.email}`;
         token.value = result.token;
+
+        document.cookie = `authToken=${result.token}; path=/; max-age=3600; secure; samesite=strict`;
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -134,6 +125,5 @@ export default component$(() => {
       </button>
     </div>
     </div>
-    
   );
 });

@@ -8,11 +8,31 @@ export const GET_USERS = `
 `;
 
 export const CREATE_USER = `
-  mutation CreateUser($email: String!, $password: String!) {
-    createUser(email: $email, password: $password) {
-      id
+  mutation Register($email: String!, $password: String!) {
+    register(email: $email, password: $password) {
       email
+      id
+      token
     }
   }
 `;
 
+export const LOGIN_USER = `
+    mutation Login($email: String!, $password: String!) {
+      login(email: $email, password: $password) {
+        id
+        email
+        token
+      }
+    }
+`;
+
+export const VALIDATE_TOKEN = `
+    mutation ValidateToken($token: String!) {
+      validateToken(token: $token) {
+        token
+        id
+        email
+      }
+    }
+`;
