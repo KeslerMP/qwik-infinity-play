@@ -1,5 +1,5 @@
 import { component$, useSignal, $ } from "@builder.io/qwik";
-import { routeLoader$ } from '@builder.io/qwik-city';
+import { useNavigate } from "@builder.io/qwik-city";
 import { CREATE_USER, LOGIN_USER } from "~/graphql/queries";
 
 export default component$(() => {
@@ -10,6 +10,7 @@ export default component$(() => {
   const loading = useSignal(false);
   const message = useSignal("");
   const token = useSignal("");
+  const navigate = useNavigate();
 
   const isEmailValid = $((email: string) => {
     return /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
@@ -60,6 +61,7 @@ export default component$(() => {
         token.value = result.token;
 
         document.cookie = `authToken=${result.token}; path=/; max-age=3600; secure; samesite=strict`;
+        navigate("/game");
       }
     } catch (error) {
       console.error("Erro:", error);
