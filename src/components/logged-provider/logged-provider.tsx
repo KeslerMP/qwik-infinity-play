@@ -7,6 +7,7 @@ export const LoggedProvider = component$(() => {
     const navigate = useNavigate();
     const isLogin = useSignal<boolean | null>(null);
     const loading = useSignal(true);
+    const animationEnded = useSignal(false); // Novo estado para saber se a animação terminou
 
     const getCookie = $((name: string) => {
         const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
@@ -49,9 +50,8 @@ export const LoggedProvider = component$(() => {
             await validateToken(token);
         } else {
             isLogin.value = false;
+            loading.value = false;
         }
-
-        loading.value = false;
 
         if (isLogin.value && loc.url.pathname === "/") {
             navigate("/game");
@@ -62,20 +62,24 @@ export const LoggedProvider = component$(() => {
         }
     });
 
-    if (loading.value) {
-        return (
-            <div class="flex items-center justify-center min-h-screen">
-                <div class="flex flex-col items-center gap-2">
-                    <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                    <p class="text-gray-500">Carregando...</p>
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div>
-            <Slot />
+        <div class="relative w-full h-screen overflow-hidden">
+            {loading.value || !animationEnded.value ? (
+                <div 
+                class="absolute inset-0 flex items-center justify-center bg-white z-50 animate-screen-slide"
+                onAnimationEnd$={() => (animationEnded.value = true)} // Marca o fim da animação
+            >
+                <img
+                    src="/monster-hand.png"
+                    class="absolute grayscale bottom-[-100px] left-1/2 transform -translate-x-1/2 animate-image-move"
+                    width={200}
+                    height={100}
+                    alt="Loading"
+                />
+            </div>
+            ) : (
+                <Slot />
+            )}
         </div>
     );
 });

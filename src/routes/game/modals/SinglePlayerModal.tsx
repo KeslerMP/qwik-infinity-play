@@ -15,12 +15,12 @@ export const SinglePlayerModal = component$(
                 <h2 class="text-xl font-bold mb-4 pixelated-text">Single Player</h2>
                 <p class="mb-4 pixelated-text">Escolha o modo de jogo:</p>
                 <div class="flex flex-col gap-2">
-                    <button
-                        onClick$={() => alert('Modo Campanha selecionado!')}
+                    <a
+                        href="/game/singleplayer"
                         class="w-full px-4 py-2 bg-white text-black border-2 border-black pixelated-button hover:bg-gray-100"
                     >
                         Campanha
-                    </button>
+                    </a>
                     <button
                         onClick$={() => alert('Modo Treino selecionado!')}
                         class="w-full px-4 py-2 bg-white text-black border-2 border-black pixelated-button hover:bg-gray-100"

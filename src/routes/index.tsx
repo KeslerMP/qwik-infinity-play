@@ -73,7 +73,7 @@ export default component$(() => {
 
   return (
     <div class="max-w-md mx-auto h-screen flex items-center justify-center">
-      <div class="w-full p-4 border rounded-lg shadow-lg bg-white">
+      <div class="w-full p-4 border-4 shadow-lg bg-white">
       <h1 class="text-2xl font-bold mb-4">{isLogin.value ? "Login" : "Registro"}</h1>
       <form 
         preventdefault:submit
@@ -111,13 +111,13 @@ export default component$(() => {
         <button
           type="submit"
           disabled={loading.value}
-          class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-400 cursor-pointer"
+          class="bg-black text-white p-2 rounded hover:opacity-80 disabled:bg-gray-400 cursor-pointer"
         >
           {loading.value ? "Aguarde..." : isLogin.value ? "Entrar" : "Registrar"}
         </button>
       </form>
       {message.value && <p class="mt-2 text-sm text-gray-700">{message.value}</p>}
-      {token.value && <p class="mt-2 text-sm text-green-500">Token: {token.value}</p>}
+
 
       <button
         onClick$={() => isLogin.value = !isLogin.value}
