@@ -1,9 +1,12 @@
-import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $, useContext } from "@builder.io/qwik";
+import { UserContext } from "~/lib/contexts/UserContext";
 
 export default component$(() => {
     const message = useSignal("...");
     const loading = useSignal(false);
     const displayedMessage = useSignal("");
+
+    const user = useContext(UserContext);
 
     const fetchMessage = $(async () => {
         loading.value = true;
@@ -43,6 +46,7 @@ export default component$(() => {
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
         document.addEventListener('keydown', (event) => {
+            console.log(user);
             if (event.code === 'Space') {
                 isSkipping.value = true;
                 console.log('Skipping...');
